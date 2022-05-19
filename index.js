@@ -159,6 +159,11 @@ async function run() {
       return res.send({ success: true, result });
     });
 
+    app.get("/doctor", verifyJWT, verifyAdmin, async (req, res) => {
+      const doctors = await doctorCollection.find().toArray();
+      res.send(doctors);
+    });
+
     app.post("/doctor", verifyJWT, verifyAdmin, async (req, res) => {
       const doctor = req.body;
       const result = await doctorCollection.insertOne(doctor);
